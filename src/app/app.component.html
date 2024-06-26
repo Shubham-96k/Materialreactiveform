@@ -1,6 +1,7 @@
 
 
 
+
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-8 offset-md-2">
@@ -10,73 +11,75 @@
                 </mat-card-title>
                 <mat-card-content>
                     <form [formGroup]="signupform" (ngSubmit)="onSignUp()">
-                        <div class="form-group">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Enter Username</mat-label>
-                                <input matInput formControlName="username" placeholder="Enter Valid Username...">
-                            </mat-form-field>
-                            <mat-error *ngIf="username.touched && username.hasError('required')">
-                                   This field is required.<sup>*</sup>
-                            </mat-error>
-                            <ng-container *ngIf="username.dirty">
-                                <mat-error *ngIf="username.hasError('pattern')">
-                                    required field doesn't allow numbers and special characters.<sup>*</sup>
+                        <div formGroupName="userinfo">
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Enter Username</mat-label>
+                                    <input matInput placeholder="Enter Valid username..." formControlName="username">
+                                </mat-form-field>
+                                <mat-error *ngIf="f['userinfo'].get('username')?.touched && f['userinfo'].get('username')?.hasError('required')">
+                                    This Field is required. <sup>*</sup>
                                 </mat-error>
-                                <mat-error *ngIf="username.hasError('minlength')">
-                                    required field minimum length must be {{username.errors?.['minlength'].requiredLength}} and actual length is {{username.errors?.['minlength'].actualLength}}<sup>*</sup>
+                                <ng-container *ngIf="f['userinfo'].get('username')?.dirty">
+                                    <mat-error *ngIf="f['userinfo'].get('username')?.hasError('pattern')">
+                                        required field doesn't allow numbers and special characters. <sup>*</sup>
+                                    </mat-error>
+                                    <mat-error *ngIf="f['userinfo'].get('username')?.hasError('minlength')">
+                                        required field minimum length must be {{f['userinfo'].get('username')?.errors?.['minlength'].requiredLength}} and actual length is {{f['userinfo'].get('username')?.errors?.['minlength'].actualLength}} <sup>*</sup>
+                                    </mat-error>
+                                    <mat-error *ngIf="f['userinfo'].get('username')?.hasError('maxlength')">
+                                        required field maximum length must be {{f['userinfo'].get('username')?.errors?.['maxlength'].requiredLength}} and actual length is {{f['userinfo'].get('username')?.errors?.['maxlength'].actualLength}} <sup>*</sup>
+                                    </mat-error>
+                                    <mat-error *ngIf="f['userinfo'].get('username')?.hasError('nospacerror')">
+                                        {{f['userinfo'].get('username')?.errors?.['nospacerror']}} <sup>*</sup>
+                                    </mat-error>
+                                </ng-container>
+                            </div>
+    
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Enter Email</mat-label>
+                                    <input matInput placeholder="Enter Valid Email..." formControlName="email">
+                                </mat-form-field>
+                                <mat-error *ngIf="f['userinfo'].get('email')?.touched && f['userinfo'].get('email')?.hasError('required')">
+                                    This Field is required. <sup>*</sup>
                                 </mat-error>
-                                <mat-error *ngIf="username.hasError('maxlength')">
-                                    required field maximum length must be {{username.errors?.['maxlength'].requiredLength}} and actual length is {{username.errors?.['maxlength'].actualLength}}<sup>*</sup>
-                                </mat-error>
-                                <mat-error *ngIf="username.hasError('nospacerror')">
-                                    {{username.errors?.['nospacerror']}}<sup>*</sup>
-                                </mat-error>
-                            </ng-container>
-                        </div>
-                        <div class="form-group">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Enter Email</mat-label>
-                                <input matInput formControlName="email" placeholder="Enter Valid email...">
-                            </mat-form-field>
-                            <mat-error *ngIf="f['email'].touched && f['email'].hasError('required')">
-                                This field is required.<sup>*</sup>
-                            </mat-error>
-                            <ng-container *ngIf="f['email'].dirty">
-                                <mat-error *ngIf="f['email'].hasError('pattern')">
-                                    Please enter valid email id.<sup>*</sup>
-                                </mat-error>
-                                <mat-error *ngIf="f['email'].hasError('emailexist')">
-                                    {{f['email'].errors?.['emailexist']}} <sup>*</sup>
-                                </mat-error>
-                                <div *ngIf="f['email'].pending">
-                                    <div class="spinner-border text-primary spinner-border-sm" role="status">
-                                        <span class="sr-only">Loading...</span>
+                                <ng-container *ngIf="f['userinfo'].get('email')?.dirty">
+                                    <mat-error *ngIf="f['userinfo'].get('email')?.hasError('pattern')">
+                                        Please Enter Valid Email. <sup>*</sup>
+                                    </mat-error>
+                                    <mat-error *ngIf="f['userinfo'].get('email')?.hasError('emailexist')">
+                                        {{f['userinfo'].get('email')?.errors?.['emailexist']}}
+                                    </mat-error>
+                                    <div *ngIf="f['userinfo'].get('email')?.pending">
+                                        <div class="spinner-border text-primary spinner-border-sm" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        checking email...
                                     </div>
-                                    checking email
-                                </div>
-                                <div class="text-success" *ngIf="f['email'].valid">
-                                    <small>&check;</small>
-                                    Email is available.
-                                </div>
-                            </ng-container>
+                                    <div *ngIf="f['userinfo'].get('email')?.valid" class="text-success">
+                                        <small>&checkmark;</small>
+                                        Email is available.
+                                    </div>
+                                </ng-container>
+                            </div>
                         </div>
-                            
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <mat-form-field appearance="outline">
-                                        <mat-label>Enter Password</mat-label>
-                                        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" placeholder="Enter Valid Username...">
-                                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"
-                                        type="button">
+                                        <mat-label>Enter your password</mat-label>
+                                        <input matInput formControlName="password" placeholder="Enter Valid password..." [type]="hide ? 'password' : 'text'">
+                                        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                                           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                                         </button>
                                     </mat-form-field>
                                     <mat-error *ngIf="f['password'].touched && f['password'].hasError('required')">
-                                        This field is required.<sup>*</sup>
+                                        This Field is required. <sup>*</sup>
                                     </mat-error>
                                     <mat-error *ngIf="f['password'].dirty && f['password'].hasError('pattern')">
-                                        Password must have more than 8 character and should contain one capitalcase, number and specialcharacter.<sup>*</sup>
+                                        password must be 8 character long and should contain one capitalcase, number and specail character. <sup>*</sup>
                                     </mat-error>
                                 </div>
                             </div>
@@ -84,67 +87,69 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <mat-form-field appearance="outline">
-                                        <mat-label>Confirm Password</mat-label>
-                                        <input type="password" matInput formControlName="confirmpassword" placeholder="confirm password...">
+                                        <mat-label>Confirm password</mat-label>
+                                        <input matInput formControlName="confirmpassword" placeholder="confirm password..." type="password">
                                     </mat-form-field>
                                     <mat-error *ngIf="f['confirmpassword'].dirty && f['confirmpassword'].hasError('invalidconfpass')">
-                                        {{f['confirmpassword'].errors?.['invalidconfpass']}}<sup>*</sup>
+                                        {{f['confirmpassword'].errors?.['invalidconfpass']}} <sup>*</sup>
                                     </mat-error>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-group" formArrayName="skills">
                             <div class="row" *ngFor="let skill of skillarray.controls; let i = index">
                                 <div class="col-8">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Add Skill</mat-label>
-                                        <input matInput [formControlName]="i" placeholder="Enter skill here...">
+                                        <input matInput placeholder="Enter your skill here..." [formControlName]="i">
                                     </mat-form-field>
                                     <mat-error *ngIf="skill.touched && skill.hasError('required')">
-                                        This field is required.<sup>*</sup>
+                                        This Field is required. <sup>*</sup>
                                     </mat-error>
                                 </div>
                                 <div class="col-4 d-flex align-items-center">
-                                    <button mat-mini-fab color="accent" aria-label="Example icon button with a delete icon"
-                                    type="button"
+                                    <button type="button" mat-mini-fab color="accent" aria-label="Example icon button with a menu icon"
                                     class="mr-2"
                                     (click)="onaddskill()"
                                     [disabled]="skillarray.length >= 5"
                                     >
                                         <mat-icon>add</mat-icon>
                                       </button>
-                                      <button mat-mini-fab color="warn" aria-label="Example icon button with a delete icon"
-                                      type="button"
-                                    *ngIf="i > 0"
+
+                                      <button type="button" mat-mini-fab color="warn" aria-label="Example icon button with a menu icon"
                                     (click)="onRemove(i)"
+                                    *ngIf="i > 0"
                                     >
                                         <mat-icon>delete</mat-icon>
                                       </button>
                                 </div>
-                                
                             </div>
                         </div>
+
 
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <mat-form-field appearance="outline">
-                                        <mat-label>Employee id:</mat-label>
-                                        <input matInput formControlName="empid" placeholder="E123">
+                                        <mat-label>Employee Id: </mat-label>
+                                        <input matInput placeholder="E123" formControlName="empid">
                                     </mat-form-field>
                                     <mat-error *ngIf="f['empid'].touched && f['empid'].hasError('required')">
-                                        This field is required.<sup>*</sup>
+                                        This Field is required. <sup>*</sup>
                                     </mat-error>
                                     <mat-error *ngIf="f['empid'].dirty && f['empid'].hasError('invalidEmpId')">
-                                        {{f['empid'].errors?.['invalidEmpId']}}.<sup>*</sup>
+                                        {{f['empid'].errors?.['invalidEmpId']}}. <sup>*</sup>
                                     </mat-error>
                                 </div>
                             </div>
+
+
+
                             <div class="col-md-7 d-flex align-items-center">
                                 <div class="form-group">
                                     <mat-label class="mr-2"><strong>Gender : </strong></mat-label>
-                                    <mat-radio-group formControlName="gender">
+                                    <mat-radio-group formControlName="gender" color="warn">
                                         <mat-radio-button class="mr-2" value="male">Male</mat-radio-button>
                                         <mat-radio-button class="mr-2" value="female">Female</mat-radio-button>
                                         <mat-radio-button value="others">Others</mat-radio-button>
@@ -155,7 +160,7 @@
 
                         <div class="row mt-4">
                             <div class="col-md-6">
-                                <h4>Current Address</h4>
+                                <h5>Current Address</h5>
                                 <div formGroupName="currentaddress">
                                     <div class="form-group">
                                         <mat-form-field appearance="outline">
@@ -163,47 +168,50 @@
                                             <mat-select formControlName="country">
                                               <mat-option [value]="con.Country" *ngFor="let con of countries">
                                                 {{con.Country}}
-                                            </mat-option>
+                                              </mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                         <mat-error *ngIf="f['currentaddress'].get('country')?.touched && f['currentaddress'].get('country')?.hasError('required')">
-                                            This field is required.<sup>*</sup>
-                                     </mat-error>
+                                            This Field is required. <sup>*</sup>
+                                        </mat-error>
                                     </div>
 
                                     <div class="form-group">
                                         <mat-form-field appearance="outline">
                                             <mat-label>Enter State</mat-label>
-                                            <input matInput formControlName="state" placeholder="Enter state...">
+                                            <input matInput placeholder="Enter state..." formControlName="state">
                                         </mat-form-field>
                                         <mat-error *ngIf="f['currentaddress'].get('state')?.touched && f['currentaddress'].get('state')?.hasError('required')">
-                                               This field is required.<sup>*</sup>
+                                            This Field is required. <sup>*</sup>
                                         </mat-error>
                                     </div>
                                     <div class="form-group">
                                         <mat-form-field appearance="outline">
                                             <mat-label>Enter City</mat-label>
-                                            <input matInput formControlName="city" placeholder="Enter city...">
+                                            <input matInput placeholder="Enter city..." formControlName="city">
                                         </mat-form-field>
                                         <mat-error *ngIf="f['currentaddress'].get('city')?.touched && f['currentaddress'].get('city')?.hasError('required')">
-                                               This field is required.<sup>*</sup>
+                                            This Field is required. <sup>*</sup>
                                         </mat-error>
                                     </div>
                                     <div class="form-group">
                                         <mat-form-field appearance="outline">
                                             <mat-label>Enter Zipcode</mat-label>
-                                            <input type="number" matInput formControlName="zipcode" placeholder="Enter zipcode...">
+                                            <input type="number" matInput placeholder="Enter zipcode..." formControlName="zipcode">
                                         </mat-form-field>
                                         <mat-error *ngIf="f['currentaddress'].get('zipcode')?.touched && f['currentaddress'].get('zipcode')?.hasError('required')">
-                                               This field is required.<sup>*</sup>
+                                            This Field is required. <sup>*</sup>
                                         </mat-error>
                                     </div>
                                 </div>
+
                             </div>
-                            
+
+
+
 
                             <div class="col-md-6">
-                                <h4>Permanent Address</h4>
+                                <h5>Permanent Address</h5>
                                 <div formGroupName="permanentaddress">
                                     <div class="form-group">
                                         <mat-form-field appearance="outline">
@@ -211,59 +219,65 @@
                                             <mat-select formControlName="country">
                                               <mat-option [value]="con.Country" *ngFor="let con of countries">
                                                 {{con.Country}}
-                                            </mat-option>
+                                              </mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                         <mat-error *ngIf="f['permanentaddress'].get('country')?.touched && f['permanentaddress'].get('country')?.hasError('required')">
-                                            This field is required.<sup>*</sup>
-                                     </mat-error>
+                                            This Field is required. <sup>*</sup>
+                                        </mat-error>
                                     </div>
 
                                     <div class="form-group">
                                         <mat-form-field appearance="outline">
                                             <mat-label>Enter State</mat-label>
-                                            <input matInput formControlName="state" placeholder="Enter state...">
+                                            <input matInput placeholder="Enter state..." formControlName="state">
                                         </mat-form-field>
                                         <mat-error *ngIf="f['permanentaddress'].get('state')?.touched && f['permanentaddress'].get('state')?.hasError('required')">
-                                               This field is required.<sup>*</sup>
+                                            This Field is required. <sup>*</sup>
                                         </mat-error>
                                     </div>
                                     <div class="form-group">
                                         <mat-form-field appearance="outline">
                                             <mat-label>Enter City</mat-label>
-                                            <input matInput formControlName="city" placeholder="Enter city...">
+                                            <input matInput placeholder="Enter city..." formControlName="city">
                                         </mat-form-field>
                                         <mat-error *ngIf="f['permanentaddress'].get('city')?.touched && f['permanentaddress'].get('city')?.hasError('required')">
-                                               This field is required.<sup>*</sup>
+                                            This Field is required. <sup>*</sup>
                                         </mat-error>
                                     </div>
                                     <div class="form-group">
                                         <mat-form-field appearance="outline">
                                             <mat-label>Enter Zipcode</mat-label>
-                                            <input matInput type="number" formControlName="zipcode" placeholder="Enter zipcode...">
+                                            <input type="number" matInput placeholder="Enter zipcode..." formControlName="zipcode">
                                         </mat-form-field>
                                         <mat-error *ngIf="f['permanentaddress'].get('zipcode')?.touched && f['permanentaddress'].get('zipcode')?.hasError('required')">
-                                               This field is required.<sup>*</sup>
+                                            This Field is required. <sup>*</sup>
                                         </mat-error>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <mat-checkbox  formControlName="isaddSame">
+                            <mat-checkbox formControlName="isaddSame">
                                 permanent address is same as current address
                             </mat-checkbox>
                         </div>
 
                         <div class="text-right">
-                            <button mat-raised-button color="primary"
-                            [disabled]="!signupform.valid">Sign Up</button>
+                            <button mat-raised-button color="primary" type="submit"
+                            [disabled]="!signupform.valid"
+                            >
+                                Sign Up
+                            </button>
                         </div>
                     </form>
                 </mat-card-content>
             </mat-card>
-
         </div>
     </div>
+
 </div>
+
+
