@@ -1,0 +1,18 @@
+
+::ng-deep{
+    body{
+        background-color: #e5e5e5;
+        min-height: 100vh;
+    }
+    .mat-form-field{
+        width: 100%;
+    }
+    .mat-form-field-wrapper{
+        padding-bottom: 0.2rem;
+    }
+    .mat-card-title {
+        text-align: center;
+        letter-spacing: 2px;
+        text-decoration-line: underline;
+    }
+}
